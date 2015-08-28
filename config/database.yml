@@ -1,0 +1,23 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: insta_dev
+  pool: 5
+  username: carlos
+  password: latino
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: insta_test
+  pool: 5
+  username: carlos
+  password: latino
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: insta_prod
+  pool: 5
+  username: carlos
+  password: latino
