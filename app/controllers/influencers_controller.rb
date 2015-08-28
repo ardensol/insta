@@ -36,6 +36,13 @@ class InfluencersController < ApplicationController
     end
   end
 
+  def find_influencers
+    
+
+
+  end
+
+
   # PATCH/PUT /influencers/1
   # PATCH/PUT /influencers/1.json
   def update

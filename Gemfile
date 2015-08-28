@@ -34,7 +34,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise'
 
+gem 'instagram', :git => 'git://github.com/Instagram/instagram-ruby-gem.git' 
+
+
 group :development, :test do
+  gem 'dotenv-rails'
+
+
   gem 'rspec-rails'		
   gem 'capybara'
   gem 'factory_girl'
