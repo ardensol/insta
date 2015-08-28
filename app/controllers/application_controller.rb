@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :insta_authorized?
 
   def insta_authorized?
-  	if session[:token] != nil
+  	if session[:access_token] != nil
   		true
   	else
   		false

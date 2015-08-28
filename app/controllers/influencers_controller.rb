@@ -1,5 +1,6 @@
 class InfluencersController < ApplicationController
-  before_action :set_influencer, only: [:show, :edit, :update, :destroy]
+  before_action :set_influencer, only: [:show, :edit, :update, :destroy, :fullcontact]
+  
   # GET /influencers
   # GET /influencers.json
   def index
@@ -36,10 +37,42 @@ class InfluencersController < ApplicationController
     end
   end
 
-  def find_influencers
+  def fullcontact
     
+    # Call Full Contact
+    fullcontact_details = FullContact.person(email: @influencer.email)
 
+    #Insert Hashie Mash Data
+    
+    @influencer.first_name = fullcontact_details.contact_info.given_name
+    @influencer.last_name = fullcontact_details.contact_info.family_name
+    @influencer.location = fullcontact_details.demographics.location_deduced.deduced_location
+    @influencer.gender = fullcontact_details.demographics.gender
+    @influencer.age = fullcontact_details.demographics.age
 
+    ## Turn Hashie Mash Social Profiles into JSON Hash So I can Find By Type
+
+    social_array = fullcontact_details.social_profiles.as_json
+
+    ## Search JSON for Facebook, Linkedin and Twitter Types
+
+    if facebook = social_array.find { |h| h['type'] == 'facebook'}
+      @influencer.facebook_url = facebook['url']
+    end
+
+    if linkedin = social_array.find { |h| h['type'] == 'linkedin'}
+      @influencer.linkedin_url = linkedin['url']
+    end  
+
+    if twitter = social_array.find { |h| h['type'] == 'twitter'}
+      @influencer.twitter_url = twitter['url']
+    end  
+  
+
+    @influencer.save
+
+    redirect_to influencers_url
+    
   end
 
 

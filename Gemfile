@@ -36,6 +36,7 @@ gem 'devise'
 
 gem 'instagram', :git => 'git://github.com/Instagram/instagram-ruby-gem.git' 
 
+gem 'fullcontact'
 
 group :development, :test do
   gem 'dotenv-rails'

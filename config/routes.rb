@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   resources :requests
 
-  match 'search_tag', to: 'requests#search_tag', via: 'post'  
+  match 'search_tag', to: 'requests#search_tag', via: 'post' 
+
+  match 'fullcontact', to: 'influencers#fullcontact', via: 'post' 
 
   namespace :oauth do
     get 'connect'

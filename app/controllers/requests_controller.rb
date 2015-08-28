@@ -64,6 +64,11 @@ class RequestsController < ApplicationController
   ##Search Tags 
 
   def search_tag
+
+    #create Request
+    request = Request.new
+    request.search_term = params[:search_term]
+    request.save
     
     client = Instagram.client(access_token: session[:access_token])
     
@@ -80,12 +85,15 @@ class RequestsController < ApplicationController
 
       influencer = Influencer.new
       
+      influencer.request_id = request.id
+
       influencer.instagram_un = @user.username
       influencer.bio = @user.bio
       influencer.insta_website = @user.website
       influencer.followers = @user.counts.followed_by
       influencer.following = @user.counts.follows
 
+      # parse email
       email_parse(influencer)
 
       influencer.save
