@@ -1,5 +1,15 @@
 <div class="container-fluid">
-
-	<%= link_to("Authorize", "/oauth/connect") %>
-
+	<% if insta_authorized? %>
+		<%= link_to("Authorize", "/oauth/connect") %>
+	<% else %>
+		<%= form_tag(search_tag_path) do %>
+			<%= text_field_tag :search_term %>
+			<%= submit_tag("Search Tags") %>
+		<% end %>
+	<% end %>
+	<% if @recent_tags %>
+		<%= @recent_tags.each do |tag| %>
+			<%= tag.caption.username %>
+		<% end %>
+	<% end %>
 </div>

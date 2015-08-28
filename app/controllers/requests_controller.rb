@@ -61,6 +61,37 @@ class RequestsController < ApplicationController
     end
   end
 
+  ##Search Tags 
+
+  def search_tag
+    
+    client = Instagram.client(access_token: session[:access_token])
+    
+    @recent_tags = client.tag_recent_media(params[:search_term])
+    
+    @recent_tags.each do |tag|
+      
+      #get instagram id from caption of picture
+      @id = tag.caption.from.id
+
+      #query instagram again for username information regarding user
+
+      @user = client.user(@id)
+
+      influencer = Influencer.new
+      
+      influencer.instagram_un = @user.username
+      influencer.bio = @user.bio
+      influencer.insta_website = @user.website
+      influencer.followers = @user.counts.followed_by
+      influencer.following = @user.counts.follows
+
+      influencer.save
+    end
+
+    redirect_to influencers_url
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_request

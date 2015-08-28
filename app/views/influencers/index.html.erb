@@ -5,6 +5,10 @@
   <thead>
     <tr>
       <th>Url</th>
+      <th>Bio</th>
+      <th>Website</th>
+      <th>Followers</th>
+      <th>Following</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -12,7 +16,11 @@
   <tbody>
     <% @influencers.each do |influencer| %>
       <tr>
-        <td><%= influencer.instagram_url %></td>
+        <td><%= influencer.instagram_un %></td>
+        <td><%= influencer.bio %></td>
+        <td><%= influencer.insta_website %></td>
+        <td><%= influencer.followers %></td>
+        <td><%= influencer.following %></td>
         <td><%= link_to 'Show', influencer %></td>
         <td><%= link_to 'Edit', edit_influencer_path(influencer) %></td>
         <td><%= link_to 'Destroy', influencer, method: :delete, data: { confirm: 'Are you sure?' } %></td>

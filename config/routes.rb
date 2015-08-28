@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   resources :requests
 
+  match 'search_tag', to: 'requests#search_tag', via: 'post'  
+
   namespace :oauth do
     get 'connect'
     get 'callback'
