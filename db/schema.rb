@@ -11,10 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828160419) do
+ActiveRecord::Schema.define(version: 20150828162835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "influencers", force: :cascade do |t|
+    t.string   "instagram_url"
+    t.string   "instagram_un"
+    t.integer  "followers"
+    t.integer  "following"
+    t.string   "bio"
+    t.string   "insta_website"
+    t.string   "email"
+    t.string   "location"
+    t.integer  "age"
+    t.string   "gender"
+    t.string   "twitter_url"
+    t.string   "facebook_url"
+    t.string   "linkedin_url"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
