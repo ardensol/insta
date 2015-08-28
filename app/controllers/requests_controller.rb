@@ -86,10 +86,19 @@ class RequestsController < ApplicationController
       influencer.followers = @user.counts.followed_by
       influencer.following = @user.counts.follows
 
+      email_parse(influencer)
+
       influencer.save
     end
 
     redirect_to influencers_url
+  end
+
+  # parse emails of influencers
+
+  def email_parse(influencer)
+      r = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
+      influencer.email = influencer.bio.scan(r)[0]
   end
 
   private
