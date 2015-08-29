@@ -1,41 +1,41 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <p id="notice"><%= notice %></p>
 
-<h1>Listing Influencers</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Url</th>
-      <th>Bio</th>
-      <th>Email</th>
-      <th>Website</th>
-      <th>Followers</th>
-      <th>Following</th>
-      <th>First Name</th>
-      <th colspan="4"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @influencers.each do |influencer| %>
+  <h1>Listing Influencers</h1>
+  <table>
+    <thead>
       <tr>
-        <td><%= influencer.instagram_un %></td>
-        <td><%= influencer.bio %></td>
-        <td><%= influencer.email %></td>
-        <td><%= influencer.insta_website %></td>
-        <td><%= influencer.followers %></td>
-        <td><%= influencer.following %></td>
-        <td><%= influencer.first_name %></td>
-        <td><%= link_to 'Show', influencer %></td>
-        <td><%= link_to 'Edit', edit_influencer_path(influencer) %></td>
-        <td><%= link_to 'Destroy', influencer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% if influencer.email != nil %>
-        <td><%= button_to 'Get Full Contact', {action: 'fullcontact', id: influencer.id } %></td>
-        <% end %>
+        <th>Url</th>
+        <th>Bio</th>
+        <th>Email</th>
+        <th>Website</th>
+        <th>Followers</th>
+        <th>Following</th>
+        <th>First Name</th>
+        <th colspan="2"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @influencers.each do |influencer| %>
+        <tr>
+          <td><%= influencer.instagram_un %></td>
+          <td><%= influencer.bio %></td>
+          <td><%= influencer.email %></td>
+          <td><%= influencer.insta_website %></td>
+          <td><%= influencer.followers %></td>
+          <td><%= influencer.following %></td>
+          <td><%= influencer.first_name %></td>
+          <td><%= link_to 'Show', influencer %></td>
+          <% if influencer.email != nil %>
+          <td><%= button_to 'Get Full Contact', {action: 'fullcontact', id: influencer.id } %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<%= link_to 'New Email', new_influencer_path %>
+  <br>
+
+  <%= link_to 'New Influencer', new_influencer_path %>
+</div>
