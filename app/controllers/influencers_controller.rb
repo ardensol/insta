@@ -80,7 +80,8 @@ class InfluencersController < ApplicationController
         @influencer.twitter_url = twitter['url']
       end  
       
-      
+      flash[:notice] = "We updated this Influencer with Additional Information"
+            
     rescue FullContact::NotFound
       flash[:error] = "Email Not Found in Database" 
     rescue FullContact::Invalid
@@ -91,7 +92,8 @@ class InfluencersController < ApplicationController
     
     @influencer.fullcontact_checked = true
     @influencer.save
-    redirect_to(:back)
+    
+    redirect_to request_influencer_path(@influencer.request_id, @influencer)
     
   end
 

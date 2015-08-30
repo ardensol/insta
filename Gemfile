@@ -38,7 +38,7 @@ gem 'instagram', :git => 'git://github.com/Instagram/instagram-ruby-gem.git'
 
 gem 'fullcontact'
 
-
+gem 'delayed_job_active_record'
 #Styling and CSS
 gem 'bootstrap-sass'
 gem 'kaminari'

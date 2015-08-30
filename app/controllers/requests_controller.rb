@@ -74,46 +74,32 @@ class RequestsController < ApplicationController
     request.search_term = params[:search_term]
     request.save
     
+    
     client = Instagram.client(access_token: session[:access_token])
-    
-    @recent_tags = client.tag_recent_media(params[:search_term])
-    
-    @recent_tags.each do |tag|
+
+    next_id = nil
+    pages = 0
+
+    while pages < 5 do
+
+      @recent_tags = client.tag_recent_media(request.search_term, max_id: next_id)
       
-      #get instagram id from caption of picture
-      @id = tag.caption.from.id
+      @recent_tags.each do |tag|
+        
+          #get instagram id from caption of picture
+          @id = tag.caption.from.id
 
-      #query instagram again for username information regarding user
+          InstagramWorkerJob.perform_later(session[:access_token], @id, request)
+      end
 
-      @user = client.user(@id)
+      next_id = @recent_tags.pagination.next_max_id
 
-      influencer = Influencer.new
-      
+      pages += 1
 
-      influencer.request_id = request.id
-
-      influencer.instagram_id = @user.id
-      influencer.instagram_un = @user.username
-      influencer.bio = @user.bio
-      influencer.insta_website = @user.website
-      influencer.followers = @user.counts.followed_by
-      influencer.following = @user.counts.follows
-      influencer.instagram_url = "http://instagram.com/#{@user.username}"
-      influencer.instagram_img = @user.profile_picture
-      # parse email
-      email_parse(influencer)
-
-      influencer.save
     end
+
     flash[:notice] = "Your Search is Being Processed..."
     redirect_to requests_path
-  end
-
-  # parse emails of influencers
-
-  def email_parse(influencer)
-      r = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
-      influencer.email = influencer.bio.scan(r)[0]
   end
 
   private
