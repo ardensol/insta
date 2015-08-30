@@ -77,8 +77,7 @@ class InfluencersController < ApplicationController
       if twitter = social_array.find { |h| h['type'] == 'twitter'}
         @influencer.twitter_url = twitter['url']
       end  
-    
-      @influencer.save
+      
       
     rescue FullContact::NotFound
       flash[:error] = "Email Not Found in Database" 
@@ -87,7 +86,9 @@ class InfluencersController < ApplicationController
     rescue => e
       flash[:error] = e.message
     end
-
+    
+    @influencer.fullcontact_checked = true
+    @influencer.save
     redirect_to(:back)
     
   end
@@ -129,6 +130,6 @@ class InfluencersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def influencer_params
-      params.require(:influencer).permit(:instagram_url, :instagram_un, :followers, :following, :bio, :insta_website, :email, :location, :age, :gender, :twitter_url, :facebook_url, :linkedin_url)
+      params.require(:influencer).permit(:instagram_url, :instagram_un, :followers, :following, :bio, :insta_website, :email, :location, :age, :gender, :twitter_url, :facebook_url, :linkedin_url, :instagram_img, :fullcontact_checked, :instagram_id)
     end
 end

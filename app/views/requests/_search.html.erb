@@ -1,12 +1,17 @@
 <li class="sidebar-search">
 	<div class="input-group custom-search-form">		
+	<% if !insta_authorized? %>
+			<%= link_to("Authorize Instagram", "/oauth/connect", class: 'btn btn-danger') %>
+	<% else %>
 		<%= form_tag(search_tag_path, class: 'form-inline') do %>
 			<%= text_field_tag(:search_term, "Search Instagram Tags...", class: "form-control") %>
 			<span class="input-group-btn">
-      <button class='btn btn-default'>
-        <i class="fa fa-search"></i>
-      </button>
-		  </span>
-    <% end %>
+			  <button class='btn btn-default'>
+			    <i class="fa fa-search"></i>
+			  </button>
+			</span>
+    	<% end %>
+	<% end %>
+
 	</div>
 </li>

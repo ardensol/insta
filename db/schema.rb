@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828212632) do
+ActiveRecord::Schema.define(version: 20150830190311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,11 +30,14 @@ ActiveRecord::Schema.define(version: 20150828212632) do
     t.string   "twitter_url"
     t.string   "facebook_url"
     t.string   "linkedin_url"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.integer  "request_id"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "instagram_img"
+    t.boolean  "fullcontact_checked"
+    t.string   "instagram_id"
   end
 
   create_table "requests", force: :cascade do |t|

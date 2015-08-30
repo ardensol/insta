@@ -85,21 +85,24 @@ class RequestsController < ApplicationController
 
       influencer = Influencer.new
       
+
       influencer.request_id = request.id
 
+      influencer.instagram_id = @user.id
       influencer.instagram_un = @user.username
       influencer.bio = @user.bio
       influencer.insta_website = @user.website
       influencer.followers = @user.counts.followed_by
       influencer.following = @user.counts.follows
       influencer.instagram_url = "http://instagram.com/#{@user.username}"
+      influencer.instagram_img = @user.profile_picture
       # parse email
       email_parse(influencer)
 
       influencer.save
     end
-
-    redirect_to influencers_path
+    flash[:notice] = "Your Search is Being Processed..."
+    redirect_to requests_path
   end
 
   # parse emails of influencers

@@ -1,9 +1,4 @@
 <div class="container-fluid">
-	<p id="notice"><%= notice %></p>
-	<% if !insta_authorized? %>
-			<%= link_to("Authorize", "/oauth/connect") %>
-	<% end %>
-	
 	<% if @recent_tags %>
 		<%= @recent_tags.each do |tag| %>
 			<%= tag.caption.username %>
