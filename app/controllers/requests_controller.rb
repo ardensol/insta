@@ -1,9 +1,12 @@
 class RequestsController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_request, only: [:show, :edit, :update, :destroy]
+  before_action :verify_user, only: [:show, :edit, :update, :destroy]
+
   # GET /requests
   # GET /requests.json
   def index
-    @requests = Request.order('id DESC').all
+    @requests = current_user.requests.order('id DESC').all
   end
 
   # GET /requests/1
@@ -67,6 +70,7 @@ class RequestsController < ApplicationController
 
     #create Request
     request = Request.new
+    request.user_id = current_user.id
     request.search_term = params[:search_term]
     request.save
     
@@ -113,11 +117,19 @@ class RequestsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
+
     def set_request
       @request = Request.find(params[:id])
     end
 
+    def verify_user
+      if current_user.id != @request.user_id
+        redirect_to root_path
+        flash[:error] = "You're Not Authorized to View That Page" 
+      end
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
       params.require(:request).permit(:user_id, :search_term)

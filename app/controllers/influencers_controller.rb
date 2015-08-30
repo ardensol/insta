@@ -1,6 +1,8 @@
 class InfluencersController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_influencer, only: [:show, :edit, :update, :destroy, :fullcontact]
   before_action :set_request, only: [:show, :edit, :update, :destroy]  
+  before_action :verify_user, only: [:show, :edit, :update, :destroy]
   # GET /influencers
   # GET /influencers.json
   def index
@@ -8,7 +10,7 @@ class InfluencersController < ApplicationController
       request = Request.find(params[:request_id])
       @influencers = request.influencers.page(params[:page]).per(50)
     else
-      @influencers = Influencer.page(params[:page]).per(50)
+      @influencers = current_user.influencers.page(params[:page]).per(50)
     end
   end
 
@@ -126,6 +128,13 @@ class InfluencersController < ApplicationController
 
     def set_request
       @request = Request.find(params[:request_id])
+    end
+
+    def verify_user
+      if current_user.id != @request.user_id
+        redirect_to root_path
+        flash[:error] = "You're Not Authorized to View That Page" 
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
