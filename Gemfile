@@ -38,6 +38,11 @@ gem 'instagram', :git => 'git://github.com/Instagram/instagram-ruby-gem.git'
 
 gem 'fullcontact'
 
+
+#Styling and CSS
+gem 'bootstrap-sass'
+gem 'kaminari'
+
 group :development, :test do
   gem 'dotenv-rails'
 

@@ -1,41 +1,48 @@
-<div class="container-fluid">
-  <p id="notice"><%= notice %></p>
+<div class="row">
+  <br/>              
+  <div class="col-lg-12">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+              Influencers
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+              <div class="table-responsive">
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Insta UN</th>
+                              <th>Email</th>
+                              <th>Followers</th>
+                              <th>Following</th>
+                              <th>Get Full Contact</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <% @influencers.each do |influencer| %>
+                            <tr>
+                            <td><%= link_to influencer.instagram_un, request_influencer_path(influencer.request_id, influencer) %></td>
+                            <td><%= influencer.email %></td>
+                            <td><%= influencer.followers %></td>
+                            <td><%= influencer.following %></td>
+                            <% if influencer.email != nil %>
+                              <td><%= button_to 'Get Full Contact', {action: 'fullcontact', id: influencer.id }, class: "btn btn-default" %></td>
+                            <% else %>
+                              <td>NA</td>
+                            <% end %>
+                            </tr>
 
-  <h1>Listing Influencers</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Url</th>
-        <th>Bio</th>
-        <th>Email</th>
-        <th>Website</th>
-        <th>Followers</th>
-        <th>Following</th>
-        <th>First Name</th>
-        <th colspan="2"></th>
-      </tr>
-    </thead>
 
-    <tbody>
-      <% @influencers.each do |influencer| %>
-        <tr>
-          <td><%= influencer.instagram_un %></td>
-          <td><%= influencer.bio %></td>
-          <td><%= influencer.email %></td>
-          <td><%= influencer.insta_website %></td>
-          <td><%= influencer.followers %></td>
-          <td><%= influencer.following %></td>
-          <td><%= influencer.first_name %></td>
-          <td><%= link_to 'Show', influencer %></td>
-          <% if influencer.email != nil %>
-          <td><%= button_to 'Get Full Contact', {action: 'fullcontact', id: influencer.id } %></td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <br>
-
-  <%= link_to 'New Influencer', new_influencer_path %>
+                          <% end %>
+                      </tbody>
+                  </table>
+                  <%= paginate @influencers %>
+              </div>
+              <!-- /.table-responsive -->
+          </div>
+          <!-- /.panel-body -->
+      </div>
+      <!-- /.panel -->
+  </div>
+  <!-- /.col-lg-6 -->
 </div>

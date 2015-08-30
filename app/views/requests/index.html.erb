@@ -1,11 +1,6 @@
 <div class="container-fluid">
-	<% if insta_authorized? %>
-		<%= form_tag(search_tag_path) do %>
-			<%= text_field_tag :search_term %>
-			<%= submit_tag("Search Tags") %>
-		<% end %>
-
-	<% else %>
+	<p id="notice"><%= notice %></p>
+	<% if !insta_authorized? %>
 			<%= link_to("Authorize", "/oauth/connect") %>
 	<% end %>
 	
@@ -14,4 +9,42 @@
 			<%= tag.caption.username %>
 		<% end %>
 	<% end %>
+
+</div>
+
+
+<div class="row">
+  <br/>              
+  <div class="col-lg-4">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+              Influencers
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+              <div class="table-responsive">
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Search Term</th>
+                              <th># of Influencers</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <% @requests.each do |request| %>
+                            <tr>
+                            <td><%= link_to request.search_term, request_influencers_path(request) %></td>
+                            <td><%= request.influencers.count %></td>
+                            </tr>
+                          <% end %>
+                      </tbody>
+                  </table>
+              </div>
+              <!-- /.table-responsive -->
+          </div>
+          <!-- /.panel-body -->
+      </div>
+      <!-- /.panel -->
+  </div>
+  <!-- /.col-lg-6 -->
 </div>

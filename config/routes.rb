@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users
+  
+  devise_for :users, controllers: { registrations: 'registrations'}
+  
+  resources :requests do
+    resources :influencers
+  end
 
-  resources :influencers
-
-  resources :requests
+  get 'influencers', to: 'influencers#index', as: 'influencers'
 
   match 'search_tag', to: 'requests#search_tag', via: 'post' 
 
@@ -14,7 +17,15 @@ Rails.application.routes.draw do
     get 'callback'
   end
 
-  root to: "influencers#index"
+  authenticated :user do
+    root 'influencers#index', as: :authenticated_root
+  end
+
+  devise_scope :user do
+    root "devise/registrations#new"
+  end
+
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

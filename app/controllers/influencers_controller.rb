@@ -1,10 +1,15 @@
 class InfluencersController < ApplicationController
   before_action :set_influencer, only: [:show, :edit, :update, :destroy, :fullcontact]
-  
+  before_action :set_request, only: [:show, :edit, :update, :destroy]  
   # GET /influencers
   # GET /influencers.json
   def index
-    @influencers = Influencer.all
+    if params[:request_id]
+      request = Request.find(params[:request_id])
+      @influencers = request.influencers.page(params[:page]).per(50)
+    else
+      @influencers = Influencer.page(params[:page]).per(50)
+    end
   end
 
   # GET /influencers/1
@@ -19,6 +24,7 @@ class InfluencersController < ApplicationController
 
   # GET /influencers/1/edit
   def edit
+
   end
 
   # POST /influencers
@@ -43,22 +49,21 @@ class InfluencersController < ApplicationController
       # Call Full Contact Details as JSON
       fullcontact_details = FullContact.person(email: @influencer.email).as_json
 
-      #If key does not exist, set value equal to {}
+      #If key does not exist, set value equal to empty string
 
-      @influencer.first_name = fullcontact_details.fetch('contact_info', {}).fetch('given_name', 'na')
+      @influencer.first_name = fullcontact_details.fetch('contact_info', {}).fetch('given_name', '')
 
-      @influencer.last_name = fullcontact_details.fetch('contact_info',{}).fetch('family_name', 'na')
+      @influencer.last_name = fullcontact_details.fetch('contact_info',{}).fetch('family_name', '')
 
-      @influencer.location = fullcontact_details.fetch('demographics', {}).fetch('location_deduced', {}).fetch('deduced_location', 'na')
+      @influencer.location = fullcontact_details.fetch('demographics', {}).fetch('location_deduced', {}).fetch('deduced_location', '')
 
-      @influencer.gender = fullcontact_details.fetch('demographics', {}).fetch('gender', 'na')
+      @influencer.gender = fullcontact_details.fetch('demographics', {}).fetch('gender', '')
 
-      @influencer.age = fullcontact_details.fetch('demographics', {}).fetch('age', 'na')
+      @influencer.age = fullcontact_details.fetch('demographics', {}).fetch('age', '')
 
 
       # Find Social Array So socialnetwork can Find By Type
       social_array = fullcontact_details.fetch('social_profiles', {})
-
 
 
       if facebook = social_array.find { |h| h['type'] == 'facebook'}
@@ -74,6 +79,7 @@ class InfluencersController < ApplicationController
       end  
     
       @influencer.save
+      
     rescue FullContact::NotFound
       flash[:error] = "Email Not Found in Database" 
     rescue FullContact::Invalid
@@ -81,7 +87,8 @@ class InfluencersController < ApplicationController
     rescue => e
       flash[:error] = e.message
     end
-    redirect_to influencers_url
+
+    redirect_to(:back)
     
   end
 
@@ -91,7 +98,7 @@ class InfluencersController < ApplicationController
   def update
     respond_to do |format|
       if @influencer.update(influencer_params)
-        format.html { redirect_to root_path, notice: 'Influencer was successfully updated.' }
+        format.html { redirect_to :back, notice: 'Influencer was successfully updated.' }
         format.json { render :show, status: :ok, location: @influencer }
       else
         format.html { render :edit }
@@ -114,6 +121,10 @@ class InfluencersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_influencer
       @influencer = Influencer.find(params[:id])
+    end
+
+    def set_request
+      @request = Request.find(params[:request_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

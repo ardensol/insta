@@ -1,0 +1,83 @@
+<br/>
+<div class="row">
+	<div class="col-sm-3">
+		<div class="panel panel-profile" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+		  <div class="panel-body">
+		    <img src="" class="img-circle">
+		    <br/>
+		    <div class="insta-un"><%= @influencer.instagram_un %></div>
+		    <div class="name"><%= @influencer.first_name %></div>
+		    <div class="info"><%= @influencer.location %></div>
+		    <ul class="list-inline text-center">
+		    	<li><a href="<%= @influencer.instagram_url %>" class="profile-instagram-icon"><i class="fa fa-instagram"></i></a></li>
+		    	<% if @influencer.facebook_url %>
+		    		<li><a href="<%= @influencer.facebook_url %>" class="profile-facebook-icon"><i class="fa fa-facebook"></i></a></li>
+		    	<% end %>
+		    	<% if @influencer.twitter_url %>
+			    	<li><a href="<%= @influencer.twitter_url %>" class="profile-twitter-icon"><i class="fa fa-twitter"></i></a></li>
+			    <% end %>
+			    <% if @influencer.linkedin_url %>
+		    		<li><a href="<%= @influencer.linkedin_url %>" class="profile-linkedin-icon"><i class="fa fa-linkedin"></i></a></li>
+		    	<% end %>
+		    </ul>
+		    <ul class="list-inline text-center">
+		    	<li class="profile-stats">Followers: <%= @influencer.followers %></li>
+		    	<li class="profile-stats">Following: <%= @influencer.following %></li>
+		    </ul>
+		  </div>
+		</div><!-- panel -->
+		<div class="list-group list-group-alternate mb-n">
+			<%= link_to "Edit", edit_request_influencer_path(@influencer.request_id, @influencer), class: 'list-group-item' %>
+		</div>
+		<br/>
+		<% if @influencer.email %>
+			<%= button_to 'Get Full Contact', {action: 'fullcontact', id: @influencer.id }, class: "btn btn-primary" %>
+		<% end %>
+	</div><!-- col-sm-3 -->
+	<div class="col-sm-9">
+		<div class="panel panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+		    <div class="panel-heading">
+		    	<h2>About</h2>
+		    </div>
+			<div class="panel-body">
+		      	<div class="about-area">
+			      	<h4>Bio</h4>
+			      	<p><%= @influencer.bio %></p>
+				</div>
+				<div class="about-area">
+			      	<h4>Basic Information</h4>
+					    <div class="table-responsive">
+					      <table class="table">
+					        <tbody>
+					          <tr>
+					            <th>Web</th>
+					            <td><a href="<%= @influencer.insta_website %>"><%= @influencer.insta_website %></a></td>
+					          </tr>
+					          <tr>
+					            <th>Email</th>
+					            <td><%= @influencer.email %></td>
+					          </tr>
+					        </tbody>
+					      </table>
+					    </div>
+				</div>
+				<div class="about-area">
+			      	<h4>Personal Information</h4>
+					    <div class="table-responsive">
+					      <table class="table about-table">
+					        <tbody>
+					          <tr>
+					            <th>Full Name</th>
+					            <td><%= @influencer.first_name %> <%= @influencer.last_name %></td>
+					          </tr>
+					            <th>Gender</th>
+					            <td><%= @influencer.gender %></td>
+					          </tr>
+					        </tbody>
+					      </table>
+					    </div>
+				</div>
+			</div>
+		</div>	
+	</div><!-- col-sm-8 -->
+</div>

@@ -3,7 +3,7 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @requests = Request.all
+    @requests = Request.order('id DESC').all
   end
 
   # GET /requests/1
@@ -92,14 +92,14 @@ class RequestsController < ApplicationController
       influencer.insta_website = @user.website
       influencer.followers = @user.counts.followed_by
       influencer.following = @user.counts.follows
-
+      influencer.instagram_url = "http://instagram.com/#{@user.username}"
       # parse email
       email_parse(influencer)
 
       influencer.save
     end
 
-    redirect_to influencers_url
+    redirect_to influencers_path
   end
 
   # parse emails of influencers
@@ -120,3 +120,4 @@ class RequestsController < ApplicationController
       params.require(:request).permit(:user_id, :search_term)
     end
 end
+  
