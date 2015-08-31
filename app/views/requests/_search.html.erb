@@ -4,7 +4,7 @@
 			<%= link_to("Authorize Instagram", "/oauth/connect", class: 'btn btn-danger') %>
 	<% else %>
 		<%= form_tag(search_tag_path, class: 'form-inline') do %>
-			<%= text_field_tag(:search_term, "Search Instagram Tags...", class: "form-control") %>
+			<%= text_field_tag(:search_term, nil, placeholder: "Search Instagram Tags...", class: "form-control") %>
 			<span class="input-group-btn">
 			  <button class='btn btn-default'>
 			    <i class="fa fa-search"></i>

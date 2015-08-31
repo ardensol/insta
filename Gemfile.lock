@@ -71,6 +71,7 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     columnize (0.9.0)
+    database_cleaner (1.4.0)
     debug_inspector (0.0.2)
     debugger (1.6.8)
       columnize (>= 0.3.1)
@@ -96,8 +97,11 @@ GEM
       dotenv (= 2.0.0)
     erubis (2.7.0)
     execjs (2.6.0)
-    factory_girl (4.5.0)
+    factory_girl (4.2.0)
       activesupport (>= 3.0.0)
+    factory_girl_rails (4.2.1)
+      factory_girl (~> 4.2.0)
+      railties (>= 3.0.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.2)
@@ -232,11 +236,12 @@ DEPENDENCIES
   bootstrap-sass
   capybara
   coffee-rails (~> 4.1.0)
+  database_cleaner
   debugger
   delayed_job_active_record
   devise
   dotenv-rails
-  factory_girl
+  factory_girl_rails (~> 4.0)
   fullcontact
   instagram!
   jbuilder (~> 2.0)

@@ -9,18 +9,9 @@ class RequestsController < ApplicationController
     @requests = current_user.requests.order('id DESC').all
   end
 
-  # GET /requests/1
-  # GET /requests/1.json
-  def show
-  end
-
   # GET /requests/new
   def new
     @request = Request.new
-  end
-
-  # GET /requests/1/edit
-  def edit
   end
 
   # POST /requests
