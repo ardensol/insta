@@ -65,32 +65,35 @@ class RequestsController < ApplicationController
     request.search_term = params[:search_term]
     request.save
     
-    
-    client = Instagram.client(access_token: session[:access_token])
+    if request.save
+      client = Instagram.client(access_token: session[:access_token])
 
-    next_id = nil
-    pages = 0
+      next_id = nil
+      pages = 0
 
-    while pages < 5 do
+      while pages < 5 do
 
-      @recent_tags = client.tag_recent_media(request.search_term, max_id: next_id)
-      
-      @recent_tags.each do |tag|
+        @recent_tags = client.tag_recent_media(request.search_term, max_id: next_id)
         
-          #get instagram id from caption of picture
-          @id = tag.caption.from.id
+        @recent_tags.each do |tag|
+          
+            #get instagram id from caption of picture
+            @id = tag.caption.from.id
 
-          InstagramWorkerJob.perform_later(session[:access_token], @id, request)
+            InstagramWorkerJob.perform_later(session[:access_token], @id, request)
+        end
+
+        next_id = @recent_tags.pagination.next_max_id
+
+        pages += 1
+
       end
-
-      next_id = @recent_tags.pagination.next_max_id
-
-      pages += 1
-
+      flash[:notice] = "Your Search is Being Processed..."
+      redirect_to requests_path
+    else
+      flash[:error] = "You're Request is Invalid.  Please Don't Use the # symbol or spaces"
+      redirect_to requests_path
     end
-
-    flash[:notice] = "Your Search is Being Processed..."
-    redirect_to requests_path
   end
 
   private
