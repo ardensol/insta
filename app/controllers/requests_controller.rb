@@ -91,7 +91,7 @@ class RequestsController < ApplicationController
       flash[:notice] = "Your Search is Being Processed..."
       redirect_to requests_path
     else
-      flash[:error] = "You're Request is Invalid.  Please Don't Use the # symbol or spaces"
+      flash[:error] = "Your Request is Invalid.  Please Don't Use a Hashtag, Symbols or Spaces"
       redirect_to requests_path
     end
   end
